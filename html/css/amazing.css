@@ -1,0 +1,58 @@
+body {
+    background-image: url('../assets/amazingbanner.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 27px 45px;
+    min-width: 300px;
+    font-size: 25px;
+    border-style: none;
+    cursor: pointer;
+    margin-bottom: 2px;
+
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#StartGame {
+
+    position: absolute;
+    top: 65%;
+    left: 42%;
+}
+
+#LeaderBoard {
+
+    position: absolute;
+    top: 75%;
+    left: 42%;
+}
+
+#Manual {
+
+    position: absolute;
+    top: 85%;
+    left: 42%;
+}
+
+#Sounds {
+
+    background-image: url("../assets/sounds2.png");
+    padding: 0;
+    background-color: transparent;
+    min-width: 50px;
+    height: 50px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    filter: invert(1);
+    border-radius: 100%;
+}
+
+#Sounds:hover {
+    background-color: #45a049;
+}

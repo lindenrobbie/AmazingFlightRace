@@ -1,59 +1,52 @@
 from flask import Flask, Response
 import json
 import mysql.connector
-
-#mariadb
-yhteys = mysql.connector.connect(
-         host='127.0.0.1',
-         port= 3306,
-         database='flight_game',
-         user='root',
-         password='root',
-         autocommit=True,
-        collation= 'utf8mb3_unicode_ci'
-         )
-def sql(icao):
-    sql = f"select name, municipality, ident from airport where airport.ident = '{icao}'"
-    print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    print(tulos)
-    return tulos
+import db_modules
 
 
 
 #'serveri'
 app = Flask(__name__)
-@app.route('/icao/<icao>')
-def alkuluku(icao):
+@app.route('/minigame/<icao>/')
+def minigame(icao):
 
     try:
-
-        icao = icao
-        printti = sql(icao)
-        nimi = printti[0][0]
-        kaupunki = printti[0][1]
-        icao = printti[0][2]
-        vastaus = {
-            "ICAO": icao,
-            "Name": nimi,
-            "Municipality": kaupunki,
+        sql = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"')
+        answer = {
+            "question" : sql[0][1],
+            "options" : sql[0][2],
+            "answer" : sql[0][3]
         }
-        print(f'loppuprintti: {printti[0]}')
-        print(f'loppuprintti: {printti[0][0]}')
-        print(f'icao {icao}')
+        print(sql)
 
 
     except ValueError:
-        vastaus = {
+        answer = {
         'status': 400,
         'text': 'could not float input'
         }
 
-    json_answer = json.dumps(vastaus)
+    json_answer = json.dumps(answer)
     return Response(response=json_answer, status='400', mimetype='application/json')
 
+
+@app.route('/minigame_result/<result>/')
+def result(result):
+
+    try:
+        if result == "1":
+            print("Done")
+
+        else:
+            print("Failure")
+
+    except ValueError:
+        answer = {
+            'status': 400,
+            'text': 'could not float input'
+        }
+
+    return ("Toimii")
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

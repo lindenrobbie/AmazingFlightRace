@@ -19,27 +19,12 @@ def db_command(command):
 
 # muokkaa pelaajan pistemäärää, yhteen- tai vähennyslasku
 def modify_score(id, amount):
-    db_command(f"UPDATE game SET game_playerscore=game_playerscore+{amount} WHERE game_ID={id}")
+    db_command(f"UPDATE game SET game_playerscore += {amount} WHERE game_ID={id}")
 
-# arpoo lentokentän, jossa pelaaja ei ole käynyt
-def select_airport():
-    while True:
-        i = random.randint(1, 21)
-        if len(db_command(f"SELECT * FROM airport WHERE airport_ID = {i} AND airport_visited = FALSE")) > 0:
-            break
-          
-    return db_command(f"SELECT * FROM airport WHERE airport_ID = {i} AND airport_visited = FALSE")
-
-def choose_airport():
-    airport1 = select_airport()
-
-    while True:
-        airport2 = select_airport()
-
-        if airport2 != airport1:
-            break
-
-    return [airport1, airport2]
+# arpoo 2 lentokenttää, joissa pelaaja ei ole käynyt
+def select_airports():
+    db_command('SELECT ident, name FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT 2')
+    
 
 # lisää pelaajan tietokantaan, aloittaa 1000 pisteellä
 def add_player():

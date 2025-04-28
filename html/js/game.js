@@ -11,14 +11,32 @@ map.setView([60, 24], 7);
  */
 
 // global variables
-
+apiURL = 'http://127.0.0.1:3000/'
 // icons
 
 // form for player name
 
 // function to fetch data from API
+async function getData(url) {
+	try {
+		const response = await fetch(url);
+		const data = await response.json();
+		document.querySelector('#data').innerHTML = Object.values(data);
+		return data;
+	} catch (error) {
+		console.log(error)
+		};	
+	};
 
-// function to update game status
+
+// functions to update game status
+// sends minigame data (player id, icao, points) to backend
+async function minigameData(id, icao, points) {
+	const data =  await fetch(`http://127.0.0.1:3000/minigame_results?id=${id}&icao=${icao}&points=${points}`);
+	const response = await data.json();
+	return response;
+
+};
 
 // function to show weather at selected airport
 

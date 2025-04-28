@@ -32,7 +32,7 @@ async function getData(url) {
 // functions to update game status
 // sends minigame data (player id, icao, points) to backend
 async function minigameData(id, icao, points) {
-	const data =  await fetch(`http://127.0.0.1:3000/minigame_results?id=${id}&icao=${icao}&points=${points}`);
+	const data =  await fetch(`${apiURL}minigame_results?id=${id}&icao=${icao}&points=${points}`);
 	const response = await data.json();
 	return response;
 

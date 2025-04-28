@@ -14,7 +14,7 @@ async function getData(url) {
 	};
 
 async function postData(url) {
-	const data =  await fetch(`http://127.0.0.1:3000/minigame_results?id=${id}&icao=${icao}&points=${points}`);
+	const data =  await fetch(url);
 	const response = await data.json();
 	return response;
 

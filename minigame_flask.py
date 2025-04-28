@@ -1,58 +1,35 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 import json
-import mysql.connector
-
-#mariadb
-yhteys = mysql.connector.connect(
-         host='127.0.0.1',
-         port= 3306,
-         database='flight_game',
-         user='root',
-         password='root',
-         autocommit=True,
-        collation= 'utf8mb3_unicode_ci'
-         )
-def sql(icao):
-    sql = f"select name, municipality, ident from airport where airport.ident = '{icao}'"
-    print(sql)
-    kursori = yhteys.cursor()
-    kursori.execute(sql)
-    tulos = kursori.fetchall()
-    print(tulos)
-    return tulos
+import db_modules
+from flask_cors import CORS
 
 
-
-#'serveri'
 app = Flask(__name__)
-@app.route('/icao/<icao>')
-def alkuluku(icao):
+cors = CORS(app)
 
-    try:
+@app.route('/minigame/<icao>/')
+def minigame(icao):
+    sql = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"')
+    answer = {
+        "icao" : sql[0][0],
+        "question" : sql[0][1],
+        "options" : sql[0][2],
+        "answer" : sql[0][3]
+    }
 
-        icao = icao
-        printti = sql(icao)
-        nimi = printti[0][0]
-        kaupunki = printti[0][1]
-        icao = printti[0][2]
-        vastaus = {
-            "ICAO": icao,
-            "Name": nimi,
-            "Municipality": kaupunki,
-        }
-        print(f'loppuprintti: {printti[0]}')
-        print(f'loppuprintti: {printti[0][0]}')
-        print(f'icao {icao}')
+    json_answer = json.dumps(answer)
+    return json_answer
 
 
-    except ValueError:
-        vastaus = {
-        'status': 400,
-        'text': 'could not float input'
-        }
+@app.route('/minigame_results')
+def results():
+    args = request.args
+    game_id = args.get("id")
+    icao = args.get("icao")
+    points = args.get("points")
 
-    json_answer = json.dumps(vastaus)
-    return Response(response=json_answer, status='400', mimetype='application/json')
+    db_modules.db_command(f'UPDATE game SET player_score += {points} WHERE game_ID = "{game_id}"')
+    db_modules.db_command(f'UPDATE minigame SET complete = 1 WHERE minigame_id = "{icao}"')
 
 
 if __name__ == '__main__':

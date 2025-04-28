@@ -1,52 +1,36 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 import json
-import mysql.connector
 import db_modules
+from flask_cors import CORS
 
 
-
-#'serveri'
 app = Flask(__name__)
+cors = CORS(app)
+
 @app.route('/minigame/<icao>/')
 def minigame(icao):
-
-    try:
-        sql = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"')
-        answer = {
-            "question" : sql[0][1],
-            "options" : sql[0][2],
-            "answer" : sql[0][3]
-        }
-        print(sql)
-
-
-    except ValueError:
-        answer = {
-        'status': 400,
-        'text': 'could not float input'
-        }
+    sql = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"')
+    answer = {
+        "icao" : sql[0][0],
+        "question" : sql[0][1],
+        "options" : sql[0][2],
+        "answer" : sql[0][3]
+    }
 
     json_answer = json.dumps(answer)
-    return Response(response=json_answer, status='400', mimetype='application/json')
+    return json_answer
 
 
-@app.route('/minigame_result/<result>/')
-def result(result):
+@app.route('/minigame_results')
+def results():
+    args = request.args
+    game_id = args.get("id")
+    icao = args.get("icao")
+    points = args.get("points")
 
-    try:
-        if result == "1":
-            print("Done")
+    db_modules.db_command(f'UPDATE game SET player_score += {points} WHERE game_ID = "{game_id}"')
+    db_modules.db_command(f'UPDATE minigame SET complete = 1 WHERE minigame_id = "{icao}"')
 
-        else:
-            print("Failure")
-
-    except ValueError:
-        answer = {
-            'status': 400,
-            'text': 'could not float input'
-        }
-
-    return ("Toimii")
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

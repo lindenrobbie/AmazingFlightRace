@@ -1,18 +1,52 @@
-button {
-  background-color: #04AA6D;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+body {
+  margin: 0;
+  font-family: sans-serif;
 }
 
-body {
-  background-image: url('../assets/background.gif');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: #94EBF2;
-  padding-top: 75rem;
+.minigame-popup {
+  width: 300px;
+  margin: 10vh auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.option-btn {
+  flex: 0 0 48%;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.option-btn.selected {
+  background-color: #87cefa;
+  border-color: #00bfff;
+}
+
+#confirm-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
 }

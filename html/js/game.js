@@ -28,7 +28,6 @@ async function getData() {
 		};	
 	};
 
-
 // functions to update game status
 // sends minigame data (player id, icao, points) to backend
 async function minigameData(id, icao, points) {

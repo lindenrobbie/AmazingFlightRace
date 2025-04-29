@@ -1,10 +1,10 @@
 'use strict';
 
-const url = 'http://127.0.0.1:3000/minigame/LGAV/'
+const url = 'http://127.0.0.1:3000/minigame'
 
-async function getData(url) {
+async function getData() {
 	try {
-		const response = await fetch(url);
+		const response = await fetch('http://127.0.0.1:3000/minigame');
 		const data = await response.json();
 		document.querySelector('#data').innerHTML = Object.values(data);
 		return data;

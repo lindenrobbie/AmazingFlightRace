@@ -21,9 +21,10 @@ def db_command(command):
 def modify_score(id, amount):
     db_command(f"UPDATE game SET game_playerscore += {amount} WHERE game_ID={id}")
 
-# arpoo 2 lentokenttää, joissa pelaaja ei ole käynyt
-def select_airports():
-    db_command('SELECT ident, name FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT 2')
+# hakee halutut tiedot kahdesta minipelistä
+def getAirport(columns):
+    return db_command(f'SELECT {columns} FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT 2')
+
     
 
 # lisää pelaajan tietokantaan, aloittaa 1000 pisteellä

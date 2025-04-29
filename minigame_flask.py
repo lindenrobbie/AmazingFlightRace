@@ -7,16 +7,26 @@ from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app)
 
-@app.route('/minigame/<icao>/')
-def minigame(icao):
-    sql = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"')
-    answer = {
-        "icao" : sql[0][0],
-        "question" : sql[0][1],
-        "options" : sql[0][2],
-        "answer" : sql[0][3]
+@app.route('/minigame')
+def minigame():
+    icaoCodes = db_modules.getAirport('ident')
+
+    airport1 = db_modules.db_command(f'select * from minigame where minigame_id = "{icaoCodes[0][0]}"')
+    answer1= {
+        "icao" : airport1[0][0],
+        "question" : airport1[0][1],
+        "options" : airport1[0][2],
+        "answer" : airport1[0][3]
     }
 
+    airport2 = db_modules.db_command(f'select * from minigame where minigame_id = "{icaoCodes[1][0]}"')
+    answer2= {
+        "icao" : airport2[0][0],
+        "question" : airport2[0][1],
+        "options" : airport2[0][2],
+        "answer" : airport2[0][3]
+    }
+    answer = [answer1, answer2]
     json_answer = json.dumps(answer)
     return json_answer
 

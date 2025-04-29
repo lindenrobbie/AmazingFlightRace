@@ -5,20 +5,21 @@
   <title>Amazing Flight Race</title>
   <link rel="stylesheet" href="css/background.css">
   <link rel="stylesheet" href="css/minigame_query.css">
+  <script src="js/game.js"></script>
 </head>
 <body>
   <div id="game-background"></div>
 
   <div class="minigame-popup">
-    <h2>KUKA KÄVI PASKALLA VUONNA 1239???</h2>
+    <h2 id="question">KUKA KÄVI PASKALLA VUONNA 1239???</h2>
 
       <!--SYÖTÄ TÄHÄN SQL:stä kyssärit-->
 
     <div class="options">
-      <button class="option-btn" data-index="0">MINIPELIN EKA VASTAUS</button>
-      <button class="option-btn" data-index="1">MINIPELIN TOKA VASTAUS</button>
-      <button class="option-btn" data-index="2">MINIPELIN KOLMAS VAIHTOEHTO</button>
-      <button class="option-btn" data-index="3">Neljäs</button>
+      <button class="option-btn" data-index="0" id="a1">MINIPELIN EKA VASTAUS</button>
+      <button class="option-btn" data-index="1" id="a2">MINIPELIN TOKA VASTAUS</button>
+      <button class="option-btn" data-index="2" id="a3">MINIPELIN KOLMAS VAIHTOEHTO</button>
+      <button class="option-btn" data-index="3" id="a4">Neljäs</button>
     </div>
     <button id="confirm-btn" disabled>Confirm</button>
     <div id="result"></div>

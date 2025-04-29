@@ -17,9 +17,9 @@ apiURL = 'http://127.0.0.1:3000/'
 // form for player name
 
 // function to fetch data from API
-async function getData(url) {
+async function getData() {
 	try {
-		const response = await fetch(url);
+		const response = await fetch('http://127.0.0.1:3000/minigame');
 		const data = await response.json();
 		document.querySelector('#data').innerHTML = Object.values(data);
 		return data;
@@ -27,7 +27,6 @@ async function getData(url) {
 		console.log(error)
 		};	
 	};
-
 
 // functions to update game status
 // sends minigame data (player id, icao, points) to backend

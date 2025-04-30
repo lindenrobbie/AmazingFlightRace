@@ -44,18 +44,16 @@ def results():
     
     #lopuksi ei kuitenkaan palauta mitään, tähän vois jkuitenkin laittaa palautuksena esim. "fetch succesfull" -merkkijonon, jos haluaa
 
-@app.route('/cordinates')
+@app.route('/coordinates')
 def cordinates():
-    results = db_modules.getCordinates()
+    results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
 
-    data = []
-    for row in results:
-        data.append({
-            "icao": row[0],
-            "name": row[1],
-            "lat": row[2],
-            "lon": row[3]
-        })
+    data = {
+            "icao": results[0],
+            "name": results[1],
+            "lat": results[2],
+            "lon": results[3]
+        }
 
     return json.dumps(data)
 

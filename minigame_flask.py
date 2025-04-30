@@ -49,10 +49,10 @@ def cordinates():
     results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
 
     data = {
-            "icao": results[0],
-            "name": results[1],
-            "lat": results[2],
-            "lon": results[3]
+            "icao": results[0][0],
+            "name": results[0][1],
+            "lat": results[0][2],
+            "lon": results[0][3]
         }
 
     return json.dumps(data)

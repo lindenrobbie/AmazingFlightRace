@@ -2,24 +2,27 @@ from flask import Flask, Response, request
 import json
 import db_modules
 from flask_cors import CORS
+import random
 
 
 app = Flask(__name__)
 cors = CORS(app)
 
+#minipeli dataa varten
 @app.route('/minigame')
 def minigame():
-    #getAirport hakee tietokannan "minigame" taulukosta satunnaisen "minigame_id,", "1" on haettujen kolumnien määrä
-    #eli hakee yhden satunnaisen minipelin icao-koodin
-    icaoCode = db_modules.getAirport('ident', 1)
-    airport1 = db_modules.db_command(f'select * from minigame where minigame_id = "{icaoCode[0][0]}"') #getairport palauttaa muodossa [["icao,"]]
+    #hakee url/minigame?icao="(fetching syöttämä icao)"
+    args = request.args
+    icao = args.get('icao')
+
+    minigame = db_modules.db_command(f'select * from minigame where minigame_id = "{icao}"') #hakee minipelin tiedot icao koodilla
 
     #luo json muotoisen version tiedosta
     answer= {
-        "icao" : airport1[0][0],
-        "question" : airport1[0][1],
-        "options" : airport1[0][2],
-        "answer" : airport1[0][3]
+        "icao" : minigame[0][0],
+        "question" : minigame[0][1],
+        "options" : minigame[0][2],
+        "answer" : minigame[0][3]
     }
 
     #muuttaa json:iksi ja lähettää osoitteeseen "http://127.0.0.1:3000/minigame", josta js:n puolella fetchataan tiedot
@@ -34,15 +37,15 @@ def minigame():
 def results():
     #kerää tiedot fetch() haun url:ista
     args = request.args
-    game_id = args.get("id")
-    icao = args.get("icao")
-    points = args.get("points")
+    game_id = args.get('id')
+    icao = args.get('icao')
+    points = args.get('points')
 
     #siirtää url:ista kerätyt tiedot tietokantaan
     db_modules.db_command(f'UPDATE game SET player_score += {points} WHERE game_ID = "{game_id}"')
     db_modules.db_command(f'UPDATE minigame SET complete = 1 WHERE minigame_id = "{icao}"')
     
-    #lopuksi ei kuitenkaan palauta mitään, tähän vois jkuitenkin laittaa palautuksena esim. "fetch succesfull" -merkkijonon, jos haluaa
+    return 'fetch successful'
 
 @app.route('/coordinates')
 def cordinates():
@@ -63,6 +66,21 @@ def cordinates():
 
     data = json.dumps([airport1, airport2])
     return data
+
+
+@app.route('/start')
+def startGame():
+    args = request.args
+    name = args.get('name')
+    points = args.get('points')    
+    location = args.get('loc')
+    co2 = args.get('co2')
+    
+    id = ''.join(str(random.randint(0, 9)) for i in range(10)) #10 numeroinen id satunnaisia numeroita
+
+    db_modules.db_command(f'INSERT INTO game (game_ID, game_playername, game_playerscore, game_playerpos, game_co2) VALUES ("{id}", "{name}", "{points}", "{location}", {co2})')
+
+    return 'fetch successful'
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

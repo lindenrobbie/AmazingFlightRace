@@ -48,14 +48,21 @@ def results():
 def cordinates():
     results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
 
-    data = {
+    airport1 = {
             "icao": results[0][0],
             "name": results[0][1],
             "lat": results[0][2],
             "lon": results[0][3]
         }
+    airport2 = {
+            "icao": results[1][0],
+            "name": results[1][1],
+            "lat": results[1][2],
+            "lon": results[1][3]
+        }
 
-    return json.dumps(data)
+    data = json.dumps([airport1, airport2])
+    return data
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

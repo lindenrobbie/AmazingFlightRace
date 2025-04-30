@@ -25,8 +25,6 @@ def modify_score(id, amount):
 def getAirport(columns, amount):
     return db_command(f'SELECT {columns} FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT {amount}')
 
-    
-
 # lisää pelaajan tietokantaan, aloittaa 1000 pisteellä
 def add_player():
     name = input("\nSyötä nimi: ")
@@ -35,3 +33,6 @@ def add_player():
 def travel_to(airport_id, game_id):
     db_command(f"UPDATE airport SET airport_visited=TRUE WHERE airport_id={airport_id}")
     db_command(f"UPDATE game SET game_playerpos={airport_id} WHERE game_ID={game_id}")
+
+def getCordinates():
+    return db_command(f"SELECT minigame.minigame_id, airport.name, airport.latitude_deg, airport.longitude_deg FROM minigame JOIN airport ON minigame.minigame_id = airport.ident WHERE minigame.complete = 0 ORDER BY RAND() LIMIT 2;")

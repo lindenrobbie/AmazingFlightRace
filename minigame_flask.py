@@ -46,7 +46,7 @@ def results():
 
 @app.route('/cordinates')
 def cordinates():
-    results = db_modules.getAirport()
+    results = db_modules.getCordinates()
 
     data = []
     for row in results:

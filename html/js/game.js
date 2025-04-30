@@ -11,17 +11,32 @@ map.setView([60, 24], 7);
  */
 
 // global variables
-apiURL = 'http://127.0.0.1:3000/'
+const apiURL = 'http://127.0.0.1:3000/'
+const startPos = 'EFHK'
+const co2Budget = 1000
+const points = 0
+
 // icons
 
 // form for player name
+document.querySelector('#player-form').addEventListener('submit', async function (evt) {
+	evt.preventDefault();
+	const playerName = document.querySelector('#player-input').value;
+	document.querySelector('#player-modal').classList.add('hide');
+	
+	try {
+		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Budget}`);
+		return sendData;
+	} catch(error) {
+		console.log(error);
+	};
+  });
 
 // function to fetch data from API
-async function getData() {
+async function getMinigame(icao) {
 	try {
-		const response = await fetch('http://127.0.0.1:3000/minigame');
+		const response = await fetch(`http://127.0.0.1:3000/minigame?icao=${icao}`);
 		const data = await response.json();
-		document.querySelector('#data').innerHTML = Object.values(data);
 		return data;
 	} catch (error) {
 		console.log(error)
@@ -30,11 +45,9 @@ async function getData() {
 
 // functions to update game status
 // sends minigame data (player id, icao, points) to backend
-async function minigameData(id, icao, points) {
+async function minigameResults(id, icao, points) {
 	const data =  await fetch(`${apiURL}minigame_results?id=${id}&icao=${icao}&points=${points}`);
-	const response = await data.json();
-	return response;
-
+	return data;
 };
 
 // function to show weather at selected airport

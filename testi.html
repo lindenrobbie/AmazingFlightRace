@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Markers with Confirm/Decline and Weather</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; }
+    .popup-btn {
+      padding: 5px 10px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .confirm-btn { background-color: #4CAF50; color: white; }
+    .decline-btn { background-color: #f44336; color: white; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Initialize map centered between Helsinki and Riihimäki
+  const map = L.map('map').setView([60.1695, 24.9354], 8);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Helsinki Marker
+  const helsinkiMarker = L.marker([60.1695, 24.9354]).addTo(map);
+  const popupContentHelsinki = `
+    <div>
+      <p>Do you confirm Helsinki?</p>
+      <button class="popup-btn confirm-btn" id="confirmBtnHelsinki">✅ Confirm</button>
+      <button class="popup-btn decline-btn" id="declineBtnHelsinki">❌ Decline</button>
+    </div>
+  `;
+  helsinkiMarker.bindPopup(popupContentHelsinki).on('popupopen', function() {
+    const confirmBtnHelsinki = document.getElementById('confirmBtnHelsinki');
+    const declineBtnHelsinki = document.getElementById('declineBtnHelsinki');
+
+    if (confirmBtnHelsinki) {
+      confirmBtnHelsinki.addEventListener('click', () => {
+        fetchWeather(60.1695, 24.9354); // Helsinki coordinates
+      });
+    }
+
+    if (declineBtnHelsinki) {
+      declineBtnHelsinki.addEventListener('click', () => {
+        alert("You declined Helsinki.");
+      });
+    }
+  });
+
+  // Riihimäki Marker
+  const riihimakiMarker = L.marker([60.6333, 24.7500]).addTo(map);
+  const popupContentRiihimaki = `
+    <div>
+      <p>Do you confirm Riihimäki?</p>
+      <button class="popup-btn confirm-btn" id="confirmBtnRiihimaki">✅ Confirm</button>
+      <button class="popup-btn decline-btn" id="declineBtnRiihimaki">❌ Decline</button>
+    </div>
+  `;
+  riihimakiMarker.bindPopup(popupContentRiihimaki).on('popupopen', function() {
+    const confirmBtnRiihimaki = document.getElementById('confirmBtnRiihimaki');
+    const declineBtnRiihimaki = document.getElementById('declineBtnRiihimaki');
+
+    if (confirmBtnRiihimaki) {
+      confirmBtnRiihimaki.addEventListener('click', () => {
+        fetchWeather(60.6333, 24.7500); // Riihimäki coordinates
+      });
+    }
+
+    if (declineBtnRiihimaki) {
+      declineBtnRiihimaki.addEventListener('click', () => {
+        alert("You declined Riihimäki.");
+      });
+    }
+  });
+
+  // Function to fetch weather
+  function fetchWeather(lat, lon) {
+    const apiKey = "Tähän api key!!!!!!!!!!!!!!!!!!!!!!!!!!!"; // Replace with your OpenWeatherMap API key
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        const weather = data.weather[0].description;
+        const temp = data.main.temp;
+        alert(`Weather in ${data.name}:\n${temp}°C, ${weather}`);
+      })
+      .catch(error => alert("Failed to fetch weather."));
+  }
+</script>
+
+</body>
+</html>

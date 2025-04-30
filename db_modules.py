@@ -23,7 +23,7 @@ def modify_score(id, amount):
 
 # hakee lentokentän (jolla on vastaava minipeli samalla identillä) icao-koodin
 def getAirport(columns, amount):
-    return db_command(f'SELECT {columns} FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT {amount}')
+    return db_command(f"SELECT minigame.minigame_id, airport.name, airport.latitude_deg, airport.longitude_deg FROM minigame JOIN airport ON minigame.minigame_id = airport.ident WHERE minigame.complete = 0 ORDER BY RAND() LIMIT 2;")
 
     
 

@@ -81,5 +81,14 @@ def startGame():
 
     return 'fetch successful'
 
+
+@app.route('/location')
+def get_playerlocation():
+    location = db_modules.db_command('select ident from airport where ident = (select game_playerpos from game order by game_id desc limit 1)')
+    location_json = json.dumps(location)
+    return location_json
+
+
+
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

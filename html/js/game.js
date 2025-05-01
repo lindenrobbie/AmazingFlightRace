@@ -12,9 +12,10 @@ map.setView([60, 24], 7);
 
 // global variables
 const apiURL = 'http://127.0.0.1:3000/'
-const startPos = 'EFHK'
+const startPos = 'LGAV'
 const co2Budget = 1000
-const points = 0
+let co2Used = 0
+let points = 0
 
 // icons
 
@@ -22,10 +23,10 @@ const points = 0
 document.querySelector('#player-form').addEventListener('submit', async function (evt) {
 	evt.preventDefault();
 	const playerName = document.querySelector('#player-input').value;
-	document.querySelector('#player-modal').classList.add('hide');
+	document.getElementById('player-modal').style.display = 'none';
 	
 	try {
-		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Budget}`);
+		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
 		return sendData;
 	} catch(error) {
 		console.log(error);

@@ -76,9 +76,8 @@ def startGame():
     location = args.get('loc')
     co2 = args.get('co2')
     
-    id = ''.join(str(random.randint(0, 9)) for i in range(10)) #10 numeroinen id satunnaisia numeroita
 
-    db_modules.db_command(f'INSERT INTO game (game_ID, game_playername, game_playerscore, game_playerpos, game_co2) VALUES ("{id}", "{name}", "{points}", "{location}", {co2})')
+    db_modules.db_command(f'INSERT INTO game (game_playername, game_playerscore, game_playerpos, game_co2) VALUES ("{name}", "{points}", "{location}", {co2})')
 
     return 'fetch successful'
 

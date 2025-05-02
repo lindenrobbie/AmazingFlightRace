@@ -17,6 +17,7 @@ const co2Budget = 1000
 let co2Used = 0
 let points = 0
 const id = sessionStorage.getItem("id");
+const currentPos = sessionStorage.getItem("currentPos");
 
 window.addEventListener('load', () => {
   try {
@@ -115,7 +116,8 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
 
           if (confirmBtn) {
             confirmBtn.addEventListener('click', () => {
-              fetch(`http://127.0.0.1:3000/flyto?id=${id}&icao=${city.icao}`)
+              fetch(`http://127.0.0.1:3000/flyto?id=${id}&icao=${city.icao}`);
+              sessionStorage.setItem("currentPos", city.icao);
               alert(`Now you flight to : ${city.name}!`);
               window.location.href = 'http://127.0.0.1:5500/html/minigame_query.html'
             });

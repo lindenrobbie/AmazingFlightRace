@@ -42,7 +42,9 @@ def results():
     points = args.get('points')
 
     #siirtää url:ista kerätyt tiedot tietokantaan
-    db_modules.db_command(f'UPDATE game SET player_score += {points} WHERE game_ID = "{game_id}"')
+    currentPoints = db_modules.db_command(f'select game_playerscore from game where game_id = "{game_id}"')
+    print(currentPoints)
+    db_modules.db_command(f'UPDATE game SET game_playerscore = "{int(currentPoints[0][0]) + int(points)}" WHERE game_ID = "{game_id}"')
     db_modules.db_command(f'UPDATE minigame SET complete = 1 WHERE minigame_id = "{icao}"')
     
     return 'fetch successful'

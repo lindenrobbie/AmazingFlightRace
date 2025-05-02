@@ -85,32 +85,44 @@ async function loadQuestion() {
 
 const confirmButton = document.getElementById('confirm-btn');
 
-confirmButton.addEventListener('click', () => {
+confirmButton.addEventListener('click', async () => {
   if (selectedAnswerText === "") {
     return;
   }
 
   const resultElement = document.getElementById('result');
 
+  let points
   if (selectedAnswerText === correctAnswerText) {
     resultElement.textContent = "Oikein! ✅";
     resultElement.style.color = "green";
     const rightSound = new Audio('assets/right_answer.wav');
     rightSound.play();
     // KIRJOITA TÄHÄN PLUS PISTEET
+    points = "100"
   } else {
     resultElement.textContent = "Väärin! ❌";
     resultElement.style.color = "red";
     const wrongSound = new Audio('assets/wrong_answer.wav');
     wrongSound.play();
     // KIRJOITA TÄHÄN MINUS PISTEET
+    points = "0"
   }
 
   // DISABLOI VAIHTOEHDOT KUN CONFIRM NAPPIA ON PAINETTU
   document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
   confirmButton.disabled = true;
 
+  const id = sessionStorage.getItem("id");
+  const pos = sessionStorage.getItem("currentPos");
+
+  console.log(id);
+
+  const results = await fetch(`http://127.0.0.1:3000/minigame_results?id=${id}&icao=${pos}&points=${points}`);
+  
   window.location.href = 'http://127.0.0.1:5500/html/game.html'
+
+  return results
 });
 
 loadQuestion();

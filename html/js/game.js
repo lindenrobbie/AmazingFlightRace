@@ -58,6 +58,8 @@ async function getMinigame(icao) {
 		};
 	};
 
+
+
 // functions to update game status
 // sends minigame data (player id, icao, points) to backend
 async function minigameResults(id, icao, points) {
@@ -101,10 +103,13 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);
 
+      let weather = "TÄHÄN SÄÄTIETO STRINGINÄ"
+
       //popupi ikkunat halutaanko edetä seuraavaan minipeliin
       const popupContent = `
         <div>
-          <p>Do you confirm ${city.name}?</p>
+          <p>"${weather}"</p>  
+          <p>Do you want to fly to ${city.name}?</p>
           <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Fly here</button>
         </div>
       `;

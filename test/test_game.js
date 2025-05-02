@@ -17,3 +17,7 @@ document.querySelector('#getData').addEventListener('submit', async (evt) => {
 	const data = await getMinigame(input);
 	document.querySelector('#data').innerHTML = Object.values(data);
 })
+
+document.querySelector('#butt1').addEventListener('click', async (evt) => {
+
+})

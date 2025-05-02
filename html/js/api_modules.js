@@ -1,17 +1,14 @@
-const OPENWEATHER_API_KEY = 'f705c9641c740e04e617f0c023707357';
+const weather_key = 'f705c9641c740e04e617f0c023707357';
 
 export async function getWeatherByCoords(lat, lon) {
   try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric`
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weather_key}&units=metric`
     );
-    if (!response.ok) {
-      throw new Error(`Weather fetch failed: ${response.status}`);
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Weather fetch error:", error);
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.error("Weather fetch failed:", err);
     return null;
   }
 }

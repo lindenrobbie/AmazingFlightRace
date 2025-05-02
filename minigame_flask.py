@@ -89,6 +89,20 @@ def get_playerlocation():
     return location_json
 
 
+@app.route('/scoreboard')
+def scoreboard():
+    data = db_modules.db_command('select scoreboard_playername, scoreboard_finalscore from scoreboard order by scoreboard_finalscore desc limit 10')
+    
+    response = []
+    for i in data:
+        answer = {
+            "name":i[0],
+            "points":i[1]
+        }
+        response.append(answer)
+
+    return json.dumps(response)
+
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

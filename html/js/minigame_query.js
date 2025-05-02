@@ -109,6 +109,8 @@ confirmButton.addEventListener('click', () => {
   // DISABLOI VAIHTOEHDOT KUN CONFIRM NAPPIA ON PAINETTU
   document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
   confirmButton.disabled = true;
+
+  window.location.href = 'http://127.0.0.1:5500/html/game.html'
 });
 
 loadQuestion();

@@ -12,12 +12,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/game.css" rel="stylesheet">
+    <link href="css/background.css" rel="stylesheet">
     <script src="js/game.js" defer></script>
 </head>
 
-
-
 <body>
+  <div id="game-background">
     <button id="Sounds"></button>
     <audio id="music" src="assets/music.wav"></audio>
     <h2> Welcome to Amazing Flight Race 2025!</h2>
@@ -29,10 +29,13 @@
             <input type="submit" value="Start game">
         </form>
     </div>
-    <div id="infobox"> KAWKDAKKDSKDSAKDASKSDKKSDK
-        asdasdsdasad
 
-    </div>
+    <div id="infobox"> KAWKDAKKDSKDSAKDASKSDKKSDK asdasdsdasad </div>
+  </div>
 
+  <script type="module">
+    import { initFlightBackground } from '../html/js/background.js';
+    initFlightBackground('#game-background');
+  </script>
 </body>
 </html>

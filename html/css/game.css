@@ -2,6 +2,10 @@ h2 { align-content: center;
 padding-left: 40%;
 padding-top: 1%}
 
+.hide {
+  display: none;
+}
+
 #player-modal {
     width: 100vw;
     height: 100vh;

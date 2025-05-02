@@ -16,20 +16,31 @@ const startPos = 'LGAV'
 const co2Budget = 1000
 let co2Used = 0
 let points = 0
-let id = ''
 
+window.addEventListener('load', () => {
+  try {
+    let id = sessionStorage.getItem("id");
+    if (id !== null) {
+    document.querySelector('#player-modal').classList.add('hide'); 
+      }
+
+  } catch (error) {
+    console.log(error)
+  }
+});
 // icons
 
 // form for player name
 document.querySelector('#player-form').addEventListener('submit', async function (evt) {
 	evt.preventDefault();
 	const playerName = document.querySelector('#player-input').value;
-	document.getElementById('player-modal').style.display = 'none';
+	document.querySelector('#player-modal').classList.add('hide');
 
 	try {
 		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
     const data = await sendData.json();
-    id = await data[0][0]
+    const id = await data[0][0]
+    sessionStorage.setItem("id", id)
     return id
 
 	} catch(error) {
@@ -107,6 +118,7 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
             confirmBtn.addEventListener('click', () => {
               fetch(`http://127.0.0.1:3000/flyto?id=${id}&icao=${city.icao}`)
               alert(`Now you flight to : ${city.name}!`);
+              window.location.href = 'http://127.0.0.1:5500/html/minigame_query.html'
             });
           }
         }, 300);

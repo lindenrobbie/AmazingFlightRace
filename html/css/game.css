@@ -1,6 +1,3 @@
-h2 { align-content: center;
-padding-left: 40%;
-padding-top: 1%}
 
 #player-modal {
     width: 100vw;
@@ -53,4 +50,22 @@ html {
 
 #Sounds:hover {
     background-color: #45a049;
+}
+
+.rainbow-text {
+    align-content: normal;
+    font-size: 3em;  /* Adjust text size */
+    font-weight: bold;
+    background-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation: rainbowAnimation 20s infinite linear;
+}
+
+@keyframes rainbowAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }

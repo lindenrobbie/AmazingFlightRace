@@ -120,7 +120,7 @@ confirmButton.addEventListener('click', async () => {
 
   const results = await fetch(`http://127.0.0.1:3000/minigame_results?id=${id}&icao=${pos}&points=${points}`);
   
-  window.location.href = 'http://127.0.0.1:5500/html/game.html'
+  window.location.href = 'game.html'
 
   return results
 });

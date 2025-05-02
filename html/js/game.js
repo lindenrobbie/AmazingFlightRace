@@ -124,7 +124,7 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
               fetch(`http://127.0.0.1:3000/flyto?id=${id}&icao=${city.icao}`);
               sessionStorage.setItem("currentPos", city.icao);
               alert(`Now you flight to : ${city.name}!`);
-              window.location.href = 'http://127.0.0.1:5500/html/minigame_query.html'
+              window.location.href = 'minigame_query.html'
             });
           }
         }, 300);

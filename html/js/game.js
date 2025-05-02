@@ -15,7 +15,6 @@ const apiURL = 'http://127.0.0.1:3000/'
 const startPos = 'LGAV'
 const co2Budget = 1000
 let co2Used = 0
-let points = 0
 
 window.addEventListener('load', () => {
   try {

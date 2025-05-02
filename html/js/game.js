@@ -16,17 +16,16 @@ const startPos = 'LGAV'
 const co2Budget = 1000
 let co2Used = 0
 let points = 0
+const id = sessionStorage.getItem("id");
 
 window.addEventListener('load', () => {
   try {
-    let id = sessionStorage.getItem("id");
     if (id !== null) {
     document.querySelector('#player-modal').classList.add('hide'); 
       }
-
   } catch (error) {
     console.log(error)
-  }
+  };
 });
 // icons
 

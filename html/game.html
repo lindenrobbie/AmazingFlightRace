@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Leaflet Map Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        #map { height: 750px; width: 60%; }
+    </style>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/game.css" rel="stylesheet">
     <script src="js/game.js" defer></script>
-    <title>Document</title>
 </head>
+
 <body>
-    <h2>Title</h2>
+    <h2> Welcome to Amazing Flight Race 2025!</h2>
+
+    <div id="map"></div> <!-- Leaflet map container -->
+
     <div id="player-modal">
         <form id="player-form">
             <input id="player-input" type="text" placeholder="Player name" required>
             <input type="submit" value="Start game">
         </form>
     </div>
+
 </body>
 </html>

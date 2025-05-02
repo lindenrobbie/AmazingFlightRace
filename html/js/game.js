@@ -24,7 +24,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
 	evt.preventDefault();
 	const playerName = document.querySelector('#player-input').value;
 	document.getElementById('player-modal').style.display = 'none';
-	
+
 	try {
 		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
 		return sendData;
@@ -41,7 +41,7 @@ async function getMinigame(icao) {
 		return data;
 	} catch (error) {
 		console.log(error)
-		};	
+		};
 	};
 
 // functions to update game status
@@ -62,4 +62,62 @@ async function minigameResults(id, icao, points) {
 // function to set up game
 // this is the main function that creates the game and calls the other functions
 
-// event listener to hide goal splash
+fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
+  .then(response => {
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    return response.json();
+  })
+  .then(cities => {
+
+    // zoomit pois
+    const map = L.map('map', {
+        zoomControl: false,
+        scrollWheelZoom: true,
+        doubleClickZoom: false,
+        dragging: true,
+    }).setView([60.1695, 24.9354], 6);
+
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap & CartoDB',
+      maxZoom: 10
+    }).addTo(map);
+
+
+    cities.forEach(city => {
+      const marker = L.marker([city.lat, city.lon]).addTo(map);
+
+      //popupi ikkunat halutaanko edetä seuraavaan minipeliin
+      const popupContent = `
+        <div>
+          <p>Do you confirm ${city.name}?</p>
+          <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Confirm</button>
+          <button class="popup-btn decline-btn" id="declineBtn-${city.ident}">❌ Decline</button>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent).on('popupopen', function() {
+        setTimeout(() => {
+          const confirmBtn = document.getElementById(`confirmBtn-${city.ident}`);
+          const declineBtn = document.getElementById(`declineBtn-${city.ident}`);
+
+          if (confirmBtn) {
+            confirmBtn.addEventListener('click', () => {
+              alert(`Now you flight to : ${city.name}!`);
+            });
+          }
+
+          if (declineBtn) {
+            declineBtn.addEventListener('click', () => {
+              alert(`You wont flight to : ${city.name} `);
+            });
+          }
+        }, 300);
+      });
+    });
+
+
+    const group = L.featureGroup(cities.map(city => L.marker([city.lat, city.lon])));
+    map.fitBounds(group.getBounds().pad(0.3));
+  })
+  .catch(error => console.error("Error loading map data:", error));

@@ -113,8 +113,24 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
       });
     });
 
-
     const group = L.featureGroup(cities.map(city => L.marker([city.lat, city.lon])));
     map.fitBounds(group.getBounds().pad(0.3));
   })
   .catch(error => console.error("Error loading map data:", error));
+
+
+
+//MUSIIKKI
+    document.addEventListener("DOMContentLoaded", function () {
+        const soundButton = document.getElementById("Sounds"); //kuuntelee äänilogoa
+        const music = document.getElementById("music");// hakee musiikki linkin html puolelta
+
+        music.loop = true
+        soundButton.addEventListener("click", function () { //kuuntelee klikkiä
+            if (music.paused) {
+                music.play();
+            } else {            //musiikin startti ja stoppi
+                music.pause();
+            }
+        });
+    });

@@ -1,5 +1,6 @@
 h2 { align-content: center;
-padding-left: 40%}
+padding-left: 40%;
+padding-top: 1%}
 
 #player-modal {
     width: 100vw;
@@ -24,15 +25,32 @@ html {
     background-color: skyblue;
 }
 #map {
+
     border: 10px solid black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: left;
 
 }
 #infobox {
+
     width: 705px;
     height: 750px;
     border: 10px solid black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: right;
+}
+#Sounds {
+    float: left;
+    background-image: url("../assets/sounds2.png");
+    background-color: transparent;
+    min-width: 50px;
+    height: 50px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    filter: invert(1);
+    border-radius: 100%;
+}
+
+#Sounds:hover {
+    background-color: #45a049;
 }

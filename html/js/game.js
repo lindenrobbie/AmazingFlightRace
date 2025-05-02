@@ -16,6 +16,7 @@ const startPos = 'LGAV'
 const co2Budget = 1000
 let co2Used = 0
 let points = 0
+let id = ''
 
 // icons
 
@@ -27,7 +28,10 @@ document.querySelector('#player-form').addEventListener('submit', async function
 
 	try {
 		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
-		return sendData;
+    const data = await sendData.json();
+    id = await data[0][0]
+    return id
+
 	} catch(error) {
 		console.log(error);
 	};
@@ -91,25 +95,18 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
       const popupContent = `
         <div>
           <p>Do you confirm ${city.name}?</p>
-          <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Confirm</button>
-          <button class="popup-btn decline-btn" id="declineBtn-${city.ident}">❌ Decline</button>
+          <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Fly here</button>
         </div>
       `;
 
       marker.bindPopup(popupContent).on('popupopen', function() {
         setTimeout(() => {
           const confirmBtn = document.getElementById(`confirmBtn-${city.ident}`);
-          const declineBtn = document.getElementById(`declineBtn-${city.ident}`);
 
           if (confirmBtn) {
             confirmBtn.addEventListener('click', () => {
+              fetch(`http://127.0.0.1:3000/flyto?id=${id}&icao=${city.icao}`)
               alert(`Now you flight to : ${city.name}!`);
-            });
-          }
-
-          if (declineBtn) {
-            declineBtn.addEventListener('click', () => {
-              alert(`You wont flight to : ${city.name} `);
             });
           }
         }, 300);

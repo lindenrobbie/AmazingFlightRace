@@ -68,6 +68,15 @@ def cordinates():
     return data
 
 
+@app.route('/flyto')
+def flyto():
+    args = request.args
+    id = args.get('id')
+    icao = args.get('icao')
+    db_modules.db_command(f'update game set game_playerpos = "{icao}" where game_id = {id}')
+    return 'done'
+
+
 @app.route('/start')
 def startGame():
     args = request.args
@@ -76,10 +85,10 @@ def startGame():
     location = args.get('loc')
     co2 = args.get('co2')
     
-
     db_modules.db_command(f'INSERT INTO game (game_playername, game_playerscore, game_playerpos, game_co2) VALUES ("{name}", "{points}", "{location}", {co2})')
+    id = db_modules.db_command('select game_id from game order by game_id desc limit 1')
 
-    return 'fetch successful'
+    return json.dumps(id)
 
 
 @app.route('/location')

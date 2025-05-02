@@ -17,11 +17,10 @@
 </head>
 
 <body>
-  <div id="game-background">
     <button id="Sounds"></button>
     <audio id="music" src="assets/music.wav"></audio>
     <h2> Welcome to Amazing Flight Race 2025!</h2>
-    <div id="map"></div> <!-- Leaflet map container -->
+    <div id="map"></div>
 
     <div id="player-modal">
         <form id="player-form">
@@ -31,11 +30,10 @@
     </div>
 
     <div id="infobox"> KAWKDAKKDSKDSAKDASKSDKKSDK asdasdsdasad </div>
-  </div>
 
-  <script type="module">
-    import { initFlightBackground } from '../html/js/background.js';
-    initFlightBackground('#game-background');
-  </script>
+    <script type="module">
+        import { initFlightBackground } from '../html/js/background.js';
+        initFlightBackground('body');
+    </script>
 </body>
 </html>

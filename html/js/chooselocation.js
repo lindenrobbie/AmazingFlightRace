@@ -1,12 +1,12 @@
-import { initFlightBackground } from './js/background.js';
+import { initFlightBackground } from './background.js';
 
 initFlightBackground('#game-background');
 
-async function loadMap() {
+// Load and render map
+document.addEventListener('DOMContentLoaded', async () => {
   try {
     const response = await fetch('http://127.0.0.1:3000/coordinates');
     const cities = await response.json();
-    console.log("Loaded cities:", cities);
 
     const map = L.map('map', { zoomControl: false });
 
@@ -23,9 +23,8 @@ async function loadMap() {
 
     const group = L.featureGroup(markers);
     map.fitBounds(group.getBounds().pad(0.3));
-  } catch (err) {
-    console.error("Error loading map or cities:", err);
-  }
-}
 
-document.addEventListener('DOMContentLoaded', loadMap);
+  } catch (err) {
+    console.error("Map load error:", err);
+  }
+});

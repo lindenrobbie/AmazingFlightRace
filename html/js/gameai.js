@@ -142,7 +142,7 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
 
 // Fetch weather data synchronously from OpenWeatherMap API
 function fetchWeather(lat, lon) {
-    const apiKey = "17acc7f74df96a822053d853382f148a";
+    const apiKey = "TÄHÄN API KEY";
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
 
     let request = new XMLHttpRequest();

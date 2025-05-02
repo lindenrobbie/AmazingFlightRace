@@ -12,16 +12,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/game.css" rel="stylesheet">
+    <link href="css/background.css" rel="stylesheet">
     <script src="js/game.js" defer></script>
 </head>
-
-
 
 <body>
     <button id="Sounds"></button>
     <audio id="music" src="assets/music.wav"></audio>
-    <h2> Welcome to Amazing Flight Race 2025!</h2>
-    <div id="map"></div> <!-- Leaflet map container -->
+    <h1 class="rainbow-text">Amazing Flight Race 2025</h1>
+    <div id="map"></div>
 
     <div id="player-modal">
         <form id="player-form">
@@ -29,10 +28,12 @@
             <input type="submit" value="Start game">
         </form>
     </div>
-    <div id="infobox"> KAWKDAKKDSKDSAKDASKSDKKSDK
-        asdasdsdasad
 
-    </div>
+    <div id="infobox"> KAWKDAKKDSKDSAKDASKSDKKSDK asdasdsdasad </div>
 
+    <script type="module">
+        import { initFlightBackground } from '../html/js/background.js';
+        initFlightBackground('body');
+    </script>
 </body>
 </html>

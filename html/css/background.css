@@ -3,13 +3,14 @@
   --sky: #5dc3ff;
 }
 
-html, body, #game-background {
+html, body {
   margin: 0;
   height: 100%;
 }
 
 .sky {
-  position: relative;
+  position: fixed;
+  z-index: -1;
   width: 100%;
   height: 100%;
   overflow: hidden;

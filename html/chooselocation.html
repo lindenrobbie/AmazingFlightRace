@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Amazing Flight Race</title>
-  <link rel="stylesheet" href="css/background.css" />
-  <link rel="stylesheet" href="css/chooselocation.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/chooselocation.css" />
+  <link rel="stylesheet" href="css/background.css" />
 </head>
 <body>
 
@@ -13,7 +13,14 @@
 
 <div class="minigame-popup">
   <h2>Mihin kaupunkiin haluat matkustaa?</h2>
-  <div id="map"></div>
+  <div class="map-weather-wrapper">
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+    <div class="weather-container">
+      <div id="weather-box">Vie hiiri kaupungin päälle nähdäksesi tiedot</div>
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

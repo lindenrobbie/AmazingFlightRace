@@ -72,7 +72,7 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
     // zoomit pois
     const map = L.map('map', {
         zoomControl: false,
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
         doubleClickZoom: false,
         dragging: true,
     }).setView([60.1695, 24.9354], 6);

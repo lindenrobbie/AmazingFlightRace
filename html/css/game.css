@@ -1,3 +1,6 @@
+h2 { align-content: center;
+padding-left: 40%}
+
 #player-modal {
     width: 100vw;
     height: 100vh;
@@ -17,3 +20,19 @@
   #player-form input {
     padding: 1rem;
   }
+html {
+    background-color: skyblue;
+}
+#map {
+    border: 10px solid black;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    float: left;
+
+}
+#infobox {
+    width: 705px;
+    height: 750px;
+    border: 10px solid black;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    float: right;
+}

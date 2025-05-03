@@ -79,7 +79,7 @@ def cordinates():
             "lat": results[0][2],
             "lon": results[0][3],
             "distance": round(distance_travelled1),
-            " co2": round(distance_travelled1_co)
+            "co2": round(distance_travelled1_co)
         }
     airport2 = {
             "icao": results[1][0],
@@ -87,7 +87,7 @@ def cordinates():
             "lat": results[1][2],
             "lon": results[1][3],
         "distance": round(distance_travelled2),
-        " co2": round(distance_travelled2_co)
+        "co2": round(distance_travelled2_co)
     }
 
     data = json.dumps([airport1, airport2])

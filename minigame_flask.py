@@ -52,10 +52,11 @@ def results():
 
 @app.route('/coordinates')
 def cordinates():
-    results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
-
     args = request.args
     game_id = args.get('id')
+    
+    results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
+    
     posnow = db_modules.db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {game_id})')
 
 

@@ -38,7 +38,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
 });
 
 // map + markers + weather
-fetch(`127.0.0.1:3000/?id=${sessionStorage.getItem("id")}`)
+fetch(`${apiURL}/coordinates?id=${id}`)
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return response.json();

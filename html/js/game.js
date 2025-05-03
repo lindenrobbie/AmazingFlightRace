@@ -38,7 +38,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
 });
 
 // map + markers + weather
-fetch('http://127.0.0.1:3000/coordinates')
+fetch(`127.0.0.1:3000/?id=${sessionStorage.getItem("id")}`)
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return response.json();
@@ -82,6 +82,8 @@ fetch('http://127.0.0.1:3000/coordinates')
             <div style="text-align: center;">
               <p>${weather}</p>
               <p>Haluatko lentää lentokenttään ${city.name}?</p>
+              <p>Etäisyys nykyisestä sijainnista ${city.distance}</p>
+              <p>Co2 kulutus tähän lentokenttään ${city.co2}</p>
               <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Lennä tänne</button>
             </div>
           `;

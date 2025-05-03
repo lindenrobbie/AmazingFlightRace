@@ -13,7 +13,7 @@ map.setView([60, 24], 7);
 // global variables
 const apiURL = 'http://127.0.0.1:3000/'
 const startPos = 'LGAV'
-const co2Budget = 1000
+const co2Budget = 10000
 let co2Used = 0
 let points = 0
 const id = sessionStorage.getItem("id");

@@ -75,6 +75,7 @@ def flyto():
     args = request.args
     id = args.get('id')
     icao = args.get('icao')
+    db_modules.co2Cost(id, icao)
     db_modules.db_command(f'update game set game_playerpos = "{icao}" where game_id = {id}')
     return 'done'
 

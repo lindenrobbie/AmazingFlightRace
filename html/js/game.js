@@ -82,8 +82,8 @@ fetch(`${apiURL}/coordinates?id=${id}`)
             <div style="text-align: center;">
               <p>${weather}</p>
               <p>Haluatko lentää lentokenttään ${city.name}?</p>
-              <p>Etäisyys nykyisestä sijainnista ${city.distance}</p>
-              <p>Co2 kulutus tähän lentokenttään ${city.co2}</p>
+              <p>Etäisyys nykyisestä sijainnista ${city.distance} km!</p>
+              <p>Co2 kulutus tähän lentokenttään ${city.co2} kg!</p>
               <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Lennä tänne</button>
             </div>
           `;

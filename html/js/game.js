@@ -1,134 +1,116 @@
 'use strict';
 
-/* 1. show map using Leaflet library. (L comes from the Leaflet library) */
-/*
-const map = L.map('map', {tap: false});
-L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-  maxZoom: 20,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-}).addTo(map);
-map.setView([60, 24], 7);
- */
-
 // global variables
-const apiURL = 'http://127.0.0.1:3000/'
-const startPos = 'LGAV'
-const co2Budget = 10000
-let co2Used = 0
-let points = 0
+const apiURL = 'http://127.0.0.1:3000/';
+const startPos = 'LGAV';
+const co2Budget = 10000;
+let co2Used = 0;
+let points = 0;
 const id = sessionStorage.getItem("id");
 const currentPos = sessionStorage.getItem("currentPos");
+const weather_key = '4cf609616c0b2b448b06bd90265d1cf6';
 
 window.addEventListener('load', () => {
   try {
     if (id !== null) {
-    document.querySelector('#player-modal').classList.add('hide'); 
-      }
+      document.querySelector('#player-modal').classList.add('hide');
+    }
   } catch (error) {
-    console.log(error)
-  };
+    console.log(error);
+  }
 });
-// icons
 
 // form for player name
 document.querySelector('#player-form').addEventListener('submit', async function (evt) {
-	evt.preventDefault();
-	const playerName = document.querySelector('#player-input').value;
-	document.querySelector('#player-modal').classList.add('hide');
+  evt.preventDefault();
+  const playerName = document.querySelector('#player-input').value;
+  document.querySelector('#player-modal').classList.add('hide');
 
-	try {
-		const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
+  try {
+    const sendData = await fetch(`${apiURL}/start?name=${playerName}&loc=${startPos}&points=${points}&co2=${co2Used}`);
     const data = await sendData.json();
-    const id = await data[0][0]
-    sessionStorage.setItem("id", id)
-    return id
+    const id = await data[0][0];
+    sessionStorage.setItem("id", id);
+    return id;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-	} catch(error) {
-		console.log(error);
-	};
-  });
-
-// function to fetch data from API
-async function getMinigame(icao) {
-	try {
-		const response = await fetch(`http://127.0.0.1:3000/minigame?icao=${icao}`);
-		const data = await response.json();
-		return data;
-	} catch (error) {
-		console.log(error)
-		};
-	};
-
-
-
-// functions to update game status
-// sends minigame data (player id, icao, points) to backend
-async function minigameResults(id, icao, points) {
-	const data =  await fetch(`${apiURL}minigame_results?id=${id}&icao=${icao}&points=${points}`);
-	return data;
-};
-
-// function to show weather at selected airport
-
-// function to check if any goals have been reached
-
-// function to update goal data and goal table in UI
-
-// function to check if game is over
-
-// function to set up game
-// this is the main function that creates the game and calls the other functions
-
-fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
+// map + markers + weather
+fetch('http://127.0.0.1:3000/coordinates')
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return response.json();
   })
   .then(cities => {
-
-    // zoomit pois
     const map = L.map('map', {
-        zoomControl: false,
-        scrollWheelZoom: false,
-        doubleClickZoom: false,
-        dragging: true,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      dragging: true,
     }).setView([60.1695, 24.9354], 6);
-
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap & CartoDB',
       maxZoom: 10
     }).addTo(map);
 
-
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);
 
-      let weather = "TÄHÄN SÄÄTIETO STRINGINÄ"
+      marker.bindPopup(`<p>Loading weather...</p>`);
 
-      //popupi ikkunat halutaanko edetä seuraavaan minipeliin
-      const popupContent = `
-        <div>
-          <p>"${weather}"</p>  
-          <p>Do you want to fly to ${city.name}?</p>
-          <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Fly here</button>
-        </div>
-      `;
+      // SÄÄHAKU
+      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${weather_key}&units=metric&lang=fi`)
+        .then(res => {
+          if (!res.ok) throw new Error("Weather API error");
+          return res.json();
+        })
+        .then(data => {
+          const rawDesc = data.weather[0].description;
+          const desc = rawDesc.charAt(0).toUpperCase() + rawDesc.slice(1);
+          const temp = data.main.temp;
+          const wind = data.wind.speed;
+          const weather = `
+            Sää: ${desc}<br>
+            Lämpötila: ${temp}°C<br>
+            Tuuli: ${wind} m/s
+          `;
 
-      marker.bindPopup(popupContent).on('popupopen', function() {
-        setTimeout(() => {
-          const confirmBtn = document.getElementById(`confirmBtn-${city.ident}`);
+          const popupContent = `
+            <div>
+              <p>${weather}</p>
+              <p>Haluatko lentää lentokenttään ${city.name}?</p>
+              <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Lennä tänne</button>
+            </div>
+          `;
 
-          if (confirmBtn) {
-            confirmBtn.addEventListener('click', () => {
-              sessionStorage.setItem("currentPos", city.icao);
-              fetch(`http://127.0.0.1:3000/flyto?id=${sessionStorage.getItem("id")}&icao=${city.icao}`);
-              alert(`Now you flight to : ${city.name}!`);
-              window.location.href = 'minigame_query.html'
-            });
-          }
-        }, 300);
-      });
+          marker.bindPopup(popupContent).on('popupopen', function () {
+            setTimeout(() => {
+              const confirmBtn = document.getElementById(`confirmBtn-${city.ident}`);
+              if (confirmBtn) {
+                confirmBtn.addEventListener('click', () => {
+                  sessionStorage.setItem("currentPos", city.icao);
+                  fetch(`${apiURL}flyto?id=${sessionStorage.getItem("id")}&icao=${city.icao}`);
+                  alert(`Lennetään: ${city.name}!`);
+                  window.location.href = 'minigame_query.html';
+                });
+              }
+            }, 300);
+          });
+        })
+        .catch(err => {
+          console.error(`Weather fetch failed for ${city.name}:`, err);
+          const popupContent = `
+            <div>
+              <p>Säätiedon haku epäonnistui.</p>
+              <p>Haluatko lentää lentokenttään ${city.name}?</p>
+              <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Lennä tänne</button>
+            </div>
+          `;
+          marker.bindPopup(popupContent);
+        });
     });
 
     const group = L.featureGroup(cities.map(city => L.marker([city.lat, city.lon])));
@@ -136,19 +118,17 @@ fetch('http://127.0.0.1:3000/coordinates') // Koordinaatit servolta
   })
   .catch(error => console.error("Error loading map data:", error));
 
+// music toggle
+document.addEventListener("DOMContentLoaded", function () {
+  const soundButton = document.getElementById("Sounds");
+  const music = document.getElementById("music");
 
-
-//MUSIIKKI
-    document.addEventListener("DOMContentLoaded", function () {
-        const soundButton = document.getElementById("Sounds"); //kuuntelee äänilogoa
-        const music = document.getElementById("music");// hakee musiikki linkin html puolelta
-
-        music.loop = true
-        soundButton.addEventListener("click", function () { //kuuntelee klikkiä
-            if (music.paused) {
-                music.play();
-            } else {            //musiikin startti ja stoppi
-                music.pause();
-            }
-        });
-    });
+  music.loop = true;
+  soundButton.addEventListener("click", function () {
+    if (music.paused) {
+      music.play();
+    } else {
+      music.pause();
+    }
+  });
+});

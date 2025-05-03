@@ -3,6 +3,7 @@ import json
 import db_modules
 from flask_cors import CORS
 import random
+from geopy import distance
 
 
 app = Flask(__name__)
@@ -53,18 +54,41 @@ def results():
 def cordinates():
     results = db_modules.getAirport(("ident, name, latitude_deg, longitude_deg"), 2)
 
+    args = request.args
+    game_id = args.get('id')
+    posnow = db_modules.db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {game_id})')
+
+
+    airport1pos = (
+                results[0][2],
+                results[0][3]
+                    )
+    airport2pos = (
+                results[1][2],
+                results[1][3]
+                )
+    distance_travelled1 = distance.distance((posnow[0][0],posnow[0][1]), airport1pos).km
+    distance_travelled2 = distance.distance((posnow[0][0],posnow[0][1]), airport2pos).km
+
+    distance_travelled1_co = distance_travelled1 * 0.246
+    distance_travelled2_co = distance_travelled2 * 0.246
+
     airport1 = {
             "icao": results[0][0],
             "name": results[0][1],
             "lat": results[0][2],
-            "lon": results[0][3]
+            "lon": results[0][3],
+            "distance": round(distance_travelled1),
+            " co2": round(distance_travelled1_co)
         }
     airport2 = {
             "icao": results[1][0],
             "name": results[1][1],
             "lat": results[1][2],
-            "lon": results[1][3]
-        }
+            "lon": results[1][3],
+        "distance": round(distance_travelled2),
+        " co2": round(distance_travelled2_co)
+    }
 
     data = json.dumps([airport1, airport2])
     return data

@@ -31,6 +31,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
     const data = await sendData.json();
     const id = await data[0][0];
     sessionStorage.setItem("id", id);
+    window.location.reload();
     return id;
   } catch (error) {
     console.log(error);

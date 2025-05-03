@@ -79,7 +79,7 @@ fetch('http://127.0.0.1:3000/coordinates')
           `;
 
           const popupContent = `
-            <div>
+            <div style="text-align: center;">
               <p>${weather}</p>
               <p>Haluatko lentää lentokenttään ${city.name}?</p>
               <button class="popup-btn confirm-btn" id="confirmBtn-${city.ident}">✅ Lennä tänne</button>

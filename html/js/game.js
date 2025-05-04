@@ -1,19 +1,14 @@
 'use strict';
 
-// GLOBAALI MUUTTUJAT JOTKA TULEVAT KÄYTTÖÖN MYÖHEMMIN KOODISSA
-
+// global variables
 const apiURL = 'http://127.0.0.1:3000/';
-const startPos = 'EFHK'; //DEFAULT ALOITUSKOHTA
-const co2Budget = 4700; // CO2 BUDJETTI, LASKETTU ETTÄ 4995 ON MINIMI MITÄ PERFECT SEEDISTÄ VOI SAADA
-let co2Used = 0; // RESET CO2 KUN PELI ALKAA
-let points = 0; // RESET PISTEET KUN PELI ALKAA
-const id = sessionStorage.getItem("id");  // GET TÄN HETKINEN PELAAJAN ID
-let currentPos = sessionStorage.getItem("currentPos"); //GET DEFAULT POS
-const weather_key = '4cf609616c0b2b448b06bd90265d1cf6'; //OPENWEATHERMAP API AVAIN
-
-let map = null;
-
-// ----------------- INIT -----------------------
+const startPos = 'EFHK';
+const co2Budget = 4700;
+let co2Used = 0;
+let points = 0;
+const id = sessionStorage.getItem("id");
+let currentPos = sessionStorage.getItem("currentPos");
+const weather_key = '4cf609616c0b2b448b06bd90265d1cf6';
 
 window.addEventListener('load', () => {
   try {
@@ -25,9 +20,7 @@ window.addEventListener('load', () => {
   }
 });
 
-// ------------------ PELAAJAN NIMI FORMI -------------------
-
-
+// form for player name
 document.querySelector('#player-form').addEventListener('submit', async function (evt) {
   evt.preventDefault();
   const playerName = document.querySelector('#player-input').value;
@@ -38,7 +31,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
     const data = await sendData.json();
     const id = await data[0][0];
     sessionStorage.setItem("id", id);
-    sessionStorage.setItem(`${currentPos}, ${currentPos}`);
+    sessionStorage.setItem("currentPos", "LGAV");
     window.location.reload();
     return id;
   } catch (error) {

@@ -54,7 +54,7 @@ async function currentcoordinates() {
     const response_json = await response.json()
     const coords = {"lat":response_json.lat,
                     "lon":response_json.lon
-    }
+                    }
     console.log(coords)
     return coords
   } catch(error) {
@@ -70,7 +70,7 @@ fetch(`${apiURL}/coordinates?id=${id}`)
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     return response.json();
   })
-  .then(cities => {
+  .then(async cities => {
     const map = L.map('map', {
       zoomControl: false,
       scrollWheelZoom: false,
@@ -78,23 +78,22 @@ fetch(`${apiURL}/coordinates?id=${id}`)
       dragging: true,
     }).setView([60.1695, 24.9354], 6);
 
-    //kutsuu nykyiset koordinaatit ja lisää sen karttaan
 
-
-    
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap & CartoDB',
       maxZoom: 10
     }).addTo(map);
+
+    //kutsuu nykyiset koordinaatit ja lisää sen karttaan
+    const currentCity = await currentcoordinates()
+    const currentMarker = L.marker([currentCity.lat, currentCity.lon]).addTo(map);
+    currentMarker.bindPopup('<p>You are here</p>')
 
     
     // LISÄÄ KAUPUNKI PINNIT
 
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);
-
-    
-
       marker.bindPopup(`<p>Loading weather...</p>`);
 
       // SÄÄHAKU

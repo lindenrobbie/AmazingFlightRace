@@ -2,12 +2,12 @@
 
 // global variables
 const apiURL = 'http://127.0.0.1:3000/';
-const startPos = 'LGAV';
+const startPos = 'EFHK';
 const co2Budget = 4700;
 let co2Used = 0;
 let points = 0;
 const id = sessionStorage.getItem("id");
-const currentPos = sessionStorage.getItem("currentPos");
+let currentPos = sessionStorage.getItem("currentPos");
 const weather_key = '4cf609616c0b2b448b06bd90265d1cf6';
 
 window.addEventListener('load', () => {
@@ -31,6 +31,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
     const data = await sendData.json();
     const id = await data[0][0];
     sessionStorage.setItem("id", id);
+    sessionStorage.setItem("currentPos", "LGAV");
     window.location.reload();
     return id;
   } catch (error) {

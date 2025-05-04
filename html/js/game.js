@@ -3,7 +3,7 @@
 // global variables
 const apiURL = 'http://127.0.0.1:3000/';
 const startPos = 'EFHK';
-const co2Budget = 10000;
+const co2Budget = 5000;
 let co2Used = 0;
 let points = 0;
 const id = sessionStorage.getItem("id");

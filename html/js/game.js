@@ -39,6 +39,23 @@ document.querySelector('#player-form').addEventListener('submit', async function
   }
 });
 
+// Fetch nykyisen sijainnin koordinaatit
+
+async function currentcoordinates() {
+  try{
+    const response = await fetch(`${apiURL}/getPlayerInfo?id=${id}`)
+    const response_json = await response.json()
+    const coords = {"lat":response_json.lat,
+                    "lon":response_json.lon
+    }
+    console.log(coords)
+    return coords
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+
 // KARTTA
 
 fetch(`${apiURL}/coordinates?id=${id}`)
@@ -54,6 +71,8 @@ fetch(`${apiURL}/coordinates?id=${id}`)
       dragging: true,
     }).setView([60.1695, 24.9354], 6);
 
+    //kutsuu nykyiset koordinaatit ja lisää sen karttaan
+
 
     
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
@@ -61,10 +80,13 @@ fetch(`${apiURL}/coordinates?id=${id}`)
       maxZoom: 10
     }).addTo(map);
 
+    
     // LISÄÄ KAUPUNKI PINNIT
 
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);
+
+    
 
       marker.bindPopup(`<p>Loading weather...</p>`);
 

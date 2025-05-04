@@ -140,6 +140,25 @@ def scoreboard():
 
     return json.dumps(response)
 
+@app.route('/getPlayerInfo')
+def getPlayerInfo():
+    args = request.args
+    id = args.get('id')
+    data = db_modules.db_command(f'select * from game where game_ID = {id}')
+    coords = db_modules.db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
+
+    playerInfo = {
+            "ID": data[0][0],
+            "name": data[0][1],
+            "score": data[0][2],
+            "pos": data[0][3],
+            "co2": data[0][4],
+            "lat": coords[0][0],
+            "lon": coords[0][1]
+        }
+
+    return json.dumps(playerInfo)
+
 
 if __name__ == '__main__':
     app.run(use_reloader=True, host='127.0.0.1', port=3000)

@@ -39,7 +39,8 @@ document.querySelector('#player-form').addEventListener('submit', async function
   }
 });
 
-// map + markers + weather
+// KARTTA
+
 fetch(`${apiURL}/coordinates?id=${id}`)
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -53,10 +54,14 @@ fetch(`${apiURL}/coordinates?id=${id}`)
       dragging: true,
     }).setView([60.1695, 24.9354], 6);
 
+
+    
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap & CartoDB',
       maxZoom: 10
     }).addTo(map);
+
+    // LISÄÄ KAUPUNKI PINNIT
 
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);

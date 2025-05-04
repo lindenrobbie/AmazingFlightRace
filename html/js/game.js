@@ -2,7 +2,7 @@
 
 // global variables
 const apiURL = 'http://127.0.0.1:3000/';
-const startPos = 'LGAV';
+const startPos = 'EFHK';
 const co2Budget = 10000;
 let co2Used = 0;
 let points = 0;

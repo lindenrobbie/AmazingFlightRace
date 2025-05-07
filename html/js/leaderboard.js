@@ -16,3 +16,18 @@ async function playerdata() {
 }
 
 playerdata()
+
+// music toggle
+document.addEventListener("DOMContentLoaded", function () {
+  const soundButton = document.getElementById("Sounds");
+  const music = document.getElementById("music");
+
+  music.loop = true;
+  soundButton.addEventListener("click", function () {
+    if (music.paused) {
+      music.play();
+    } else {
+      music.pause();
+    }
+  });
+});

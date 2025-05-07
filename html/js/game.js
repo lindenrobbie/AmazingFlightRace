@@ -162,3 +162,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+//Kerää pelaajan tietoja infoboxia varten
+async function playerdata() {
+  try{
+  const data = await fetch(`${apiURL}getPlayerInfo?id=${id}`)
+  const data_json = await data.json()
+  const infobox_text = {
+    "co2":data_json.co2,
+    "name":data_json.name,
+    "airpot_name":data_json.airport_name,
+    "score":data_json.score
+  }
+  return infobox_text
+}
+  catch(error){
+    console.log(error)
+  }
+}
+

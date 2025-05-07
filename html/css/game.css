@@ -26,17 +26,17 @@ html {
     background-color: #5dc3ff;
 }
 #map {
-
-    border: 10px solid black;
+    margin-left: 2rem;
+    border: 5px solid black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: left;
 
 }
 #infobox {
-
-    width: 705px;
-    height: 750px;
-    border: 10px solid black;
+    margin-right: 2rem;
+    height: 80vh;
+    width: 32vw;
+    border: 5px solid black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: right;
 }

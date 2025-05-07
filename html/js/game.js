@@ -10,11 +10,16 @@ const id = sessionStorage.getItem("id");
 let currentPos = sessionStorage.getItem("currentPos");
 const weather_key = '4cf609616c0b2b448b06bd90265d1cf6';
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   try {
     if (id !== null) {
       document.querySelector('#player-modal').classList.add('hide');
     }
+    const infoBox_Data = await playerdata()
+    document.querySelector("#playername").innerHTML = "Your name is: " + await infoBox_Data.name
+    document.querySelector("#airport_name").innerHTML = "Current airport: " + await infoBox_Data.airport_name
+    document.querySelector("#score").innerHTML = "Your score is: " + await infoBox_Data.score
+    document.querySelector("#co2").innerHTML = "Used co2: " + await infoBox_Data.co2
   } catch (error) {
     console.log(error);
   }
@@ -162,3 +167,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+//Kerää pelaajan tietoja infoboxia varten
+async function playerdata() {
+  try{
+  const data = await fetch(`${apiURL}getPlayerInfo?id=${id}`)
+  const data_json = await data.json()
+  const infobox_text = {
+    "co2":data_json.co2,
+    "name":data_json.name,
+    "airport_name":data_json.airport_name,
+    "score":data_json.score
+  }
+  return infobox_text
+}
+  catch(error){
+    console.log(error)
+  }
+}
+

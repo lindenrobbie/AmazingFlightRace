@@ -128,8 +128,15 @@ def get_playerlocation():
 
 @app.route('/scoreboard')
 def scoreboard():
+    args = request.args
+    id = args.get('id')
+
+    #pelin loppua varten, id=0 jos hakee pistetaulukon ennen pelin päättymistä, ei lisää pisteitä kantaan
+    if id != '0':
+        data = db_modules.db_command(f'select game_playername, game_playerscore from game where game_id = {id}')
+        db_modules.db_command(f'insert into scoreboard (scoreboard_playername, scoreboard_finalscore) values ({data[0][0]}, {data[0][1]})')
+
     data = db_modules.db_command('select scoreboard_playername, scoreboard_finalscore from scoreboard order by scoreboard_finalscore desc limit 10')
-    
     response = []
     for i in data:
         answer = {
@@ -145,7 +152,7 @@ def getPlayerInfo():
     args = request.args
     id = args.get('id')
     data = db_modules.db_command(f'select * from game where game_ID = {id}')
-    coords = db_modules.db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
+    airport = db_modules.db_command(f'select name, latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
 
     playerInfo = {
             "ID": data[0][0],
@@ -153,8 +160,9 @@ def getPlayerInfo():
             "score": data[0][2],
             "pos": data[0][3],
             "co2": data[0][4],
-            "lat": coords[0][0],
-            "lon": coords[0][1]
+            "lat": airport[0][0],
+            "lon": airport[0][1],
+            "airport_name": airport[0][2]
         }
 
     return json.dumps(playerInfo)

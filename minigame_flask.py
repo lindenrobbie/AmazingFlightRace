@@ -160,9 +160,9 @@ def getPlayerInfo():
             "score": data[0][2],
             "pos": data[0][3],
             "co2": data[0][4],
-            "lat": airport[0][0],
-            "lon": airport[0][1],
-            "airport_name": airport[0][2]
+            "lat": airport[0][1],
+            "lon": airport[0][2],
+            "airport_name": airport[0][0]
         }
 
     return json.dumps(playerInfo)

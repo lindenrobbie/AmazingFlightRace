@@ -40,6 +40,8 @@ html {
     border: 5px groove black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: right;
+    font-family: "Bauhaus 93";
+    font-size: 25px;
 }
 #Sounds {
     float: left;

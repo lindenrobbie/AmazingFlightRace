@@ -2,7 +2,6 @@ from flask import Flask, Response, request
 import json
 import db_modules
 from flask_cors import CORS
-import random
 from geopy import distance
 
 

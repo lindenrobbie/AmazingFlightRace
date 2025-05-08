@@ -1,5 +1,4 @@
-import geopy.distance
-import mariadb, random
+import mariadb
 from geopy import distance
 
 def db_command(command):

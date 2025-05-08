@@ -3,7 +3,7 @@
 // global variables
 const apiURL = 'http://127.0.0.1:3000/';
 const startPos = 'EFHK';
-const co2Budget = 1000;
+const co2Budget = 4700;
 let co2Used = 0;
 let points = 0;
 const id = sessionStorage.getItem("id");
@@ -21,6 +21,7 @@ window.addEventListener('load', async () => {
       const gameOver = await fetch(`${apiURL}scoreboard?id=${id}`);
       const gameOverData = await gameOver.json();
       alert(`Game over! \n\nPisteesi: ${infoBox_Data.score}`);
+      sessionStorage.clear();
       window.location.href = 'leaderboard.html';
 
     }

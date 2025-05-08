@@ -24,10 +24,10 @@ h2 {
 
 #leaderbox {
     position: absolute;
-    left: 40%;
+    left: 30%;
     right: 40%;
 
-    width: 20%;
+    width: 30%;
     height: auto;
     border: 10px groove gold;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
@@ -73,7 +73,7 @@ ol {
 #tomain {
     position: absolute;
     top: 90%;
-    left: 40%;
+    left: 35%;
     right: 40%;
     width: 25%;
     height: auto;

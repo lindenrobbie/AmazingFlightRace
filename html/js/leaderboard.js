@@ -10,7 +10,7 @@ async function playerdata() {
 
   for (let i of data_json){
     const li = document.createElement("li")
-    li.innerText = ("name: ") + i.name + ("      \npoints: ") + i.points
+    li.innerText = ("name: ") + i.name + ("      points: ") + i.points
     ol.appendChild(li)
   }
 }

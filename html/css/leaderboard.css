@@ -64,3 +64,26 @@ ol {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+#tomain:hover{
+    background-color: black;
+    color: #eeeeee;
+}
+
+#tomain {
+    position: absolute;
+    top: 90%;
+    left: 40%;
+    right: 40%;
+    width: 25%;
+    height: auto;
+    border: 10px groove gold;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    font-family: "Bauhaus 93";
+    font-size: 30px;
+    background-color: silver;
+    text-align: center;
+
+
+
+}

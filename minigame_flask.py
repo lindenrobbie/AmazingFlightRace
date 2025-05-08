@@ -149,21 +149,28 @@ def scoreboard():
 
 @app.route('/getPlayerInfo')
 def getPlayerInfo():
-    args = request.args
-    id = args.get('id')
+    id = request.args.get('id')
+    if not id:
+        return Response("Pelaajan ID puuttuu (ei löydy?)", status=400)
+
     data = db_modules.db_command(f'select * from game where game_ID = {id}')
+    if not data:
+        return Response("Peliä ei löydy", status=404)
+
     airport = db_modules.db_command(f'select name, latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
+    if not airport:
+        return Response("Lenttokenttää ei löydy", status=404)
 
     playerInfo = {
-            "ID": data[0][0],
-            "name": data[0][1],
-            "score": data[0][2],
-            "pos": data[0][3],
-            "co2": data[0][4],
-            "lat": airport[0][1],
-            "lon": airport[0][2],
-            "airport_name": airport[0][0]
-        }
+        "ID": data[0][0],
+        "name": data[0][1],
+        "score": data[0][2],
+        "pos": data[0][3],
+        "co2": data[0][4],
+        "lat": airport[0][1],
+        "lon": airport[0][2],
+        "airport_name": airport[0][0]
+    }
 
     return json.dumps(playerInfo)
 

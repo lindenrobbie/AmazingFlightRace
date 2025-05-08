@@ -27,7 +27,8 @@ html {
 }
 #map {
     margin-left: 2rem;
-    border: 5px solid black;
+    border: 5px groove black;
+
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: left;
 
@@ -36,7 +37,7 @@ html {
     margin-right: 2rem;
     height: 80vh;
     width: 32vw;
-    border: 5px solid black;
+    border: 5px groove black;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
     float: right;
 }

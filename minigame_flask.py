@@ -134,7 +134,7 @@ def scoreboard():
     #pelin loppua varten, id=0 jos hakee pistetaulukon ennen pelin päättymistä, ei lisää pisteitä kantaan
     if id != '0':
         data = db_modules.db_command(f'select game_playername, game_playerscore from game where game_id = {id}')
-        db_modules.db_command(f'insert into scoreboard (scoreboard_playername, scoreboard_finalscore) values ({data[0][0]}, {data[0][1]})')
+        db_modules.db_command(f'insert into scoreboard (scoreboard_playername, scoreboard_finalscore) values ("{data[0][0]}", "{data[0][1]}")')
 
     data = db_modules.db_command('select scoreboard_playername, scoreboard_finalscore from scoreboard order by scoreboard_finalscore desc limit 10')
     response = []

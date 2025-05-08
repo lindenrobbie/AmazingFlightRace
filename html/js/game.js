@@ -3,7 +3,7 @@
 // global variables
 const apiURL = 'http://127.0.0.1:3000/';
 const startPos = 'EFHK';
-const co2Budget = 4700;
+const co2Budget = 1000;
 let co2Used = 0;
 let points = 0;
 const id = sessionStorage.getItem("id");
@@ -16,6 +16,15 @@ window.addEventListener('load', async () => {
       document.querySelector('#player-modal').classList.add('hide');
     }
     const infoBox_Data = await playerdata()
+
+    if (infoBox_Data.co2 >= co2Budget) {
+      const gameOver = await fetch(`${apiURL}scoreboard?id=${id}`);
+      const gameOverData = await gameOver.json();
+      alert(`Game over! \n\nPisteesi: ${infoBox_Data.score}`);
+      window.location.href = 'leaderboard.html';
+
+    }
+
     document.querySelector("#playername").innerHTML = "Your name is: " + await infoBox_Data.name
     document.querySelector("#airport_name").innerHTML = "Current airport: " + await infoBox_Data.airport_name
     document.querySelector("#score").innerHTML = "Your score is: " + await infoBox_Data.score
@@ -36,7 +45,7 @@ document.querySelector('#player-form').addEventListener('submit', async function
     const data = await sendData.json();
     const id = await data[0][0];
     sessionStorage.setItem("id", id);
-    sessionStorage.setItem("currentPos", "LGAV");
+    sessionStorage.setItem("currentPos", startPos);
     window.location.reload();
     return id;
   } catch (error) {

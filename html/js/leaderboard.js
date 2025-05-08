@@ -2,7 +2,7 @@
 
 
 async function playerdata() {
-  const data = await fetch("http://127.0.0.1:3000/scoreboard")
+  const data = await fetch("http://127.0.0.1:3000/scoreboard?id=0")
   const data_json = await data.json()
   const ol = document.querySelector("ol")
   console.log(data_json)

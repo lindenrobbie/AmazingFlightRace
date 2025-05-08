@@ -2,22 +2,36 @@ import geopy.distance
 import mariadb, random
 from geopy import distance
 
-connection = mariadb.connect(
-    host='127.0.0.1',
-    port=3306,
-    database='afr',
-    user='root',
-    password='root',
-    autocommit=True
-)
-
 def db_command(command):
-    cursor = connection.cursor()
-    cursor.execute(command)
     try:
-        return cursor.fetchall()
-    except:
-        pass
+        connection = mariadb.connect(
+            host='127.0.0.1',
+            port=3306,
+            database='afr',
+            user='root',
+            password='root',
+            autocommit=True
+        )
+        print('db_command debug: Pingataan mariadb serveriin...')
+        connection.ping()
+
+        print('db_command debug: yhdistetään...')
+        cursor = connection.cursor()
+        print('db_command debug: execute cursor...')
+        cursor.execute(command)
+        try:
+            result = cursor.fetchall()
+        except:
+            result = None
+        print('db_command debug: exception, suljetaan mariadb yhteys')
+        cursor.close()
+        connection.close()
+        return result
+    except mariadb.Error as e:
+        print('db_command debug: mariadb virhe:')
+        print('db_command debug: returnataan None')
+        print(e)
+        return None
 
 # hakee lentokentän (jolla on vastaava minipeli samalla identillä) icao-koodin
 def getAirport(columns, amount):

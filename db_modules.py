@@ -27,6 +27,7 @@ def co2Cost(id, icao):
     currentCoord = db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
     newCoord = db_command(f'select latitude_deg, longitude_deg from airport where ident = "{icao}"')
 
+    print('debug modules vanha uudet koordit:')
     print(currentCoord[0], newCoord[0])
 
     distanceTraveled = distance.distance(currentCoord[0], newCoord[0]).km

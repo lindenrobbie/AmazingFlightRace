@@ -44,6 +44,7 @@ def results():
 
     #siirtää url:ista kerätyt tiedot tietokantaan
     currentPoints = db_modules.db_command(f'select game_playerscore from game where game_id = "{game_id}"')
+    print('debug pisteet:')
     print(currentPoints)
     db_modules.db_command(f'UPDATE game SET game_playerscore = "{int(currentPoints[0][0]) + int(points)}" WHERE game_ID = "{game_id}"')
     db_modules.db_command(f'UPDATE minigame SET complete = 1 WHERE minigame_id = "{icao}"')
@@ -68,6 +69,9 @@ def cordinates():
                 results[1][2],
                 results[1][3]
                 )
+    print('debug:')
+    print(posnow)
+
     distance_travelled1 = distance.distance((posnow[0][0],posnow[0][1]), airport1pos).km
     distance_travelled2 = distance.distance((posnow[0][0],posnow[0][1]), airport2pos).km
 

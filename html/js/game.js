@@ -21,6 +21,7 @@ window.addEventListener('load', async () => {
       const gameOver = await fetch(`${apiURL}scoreboard?id=${id}`);
       const gameOverData = await gameOver.json();
       alert(`Game over! \n\nPisteesi: ${infoBox_Data.score}`);
+      console.log('poistetaan session storage');
       sessionStorage.clear();
       window.location.href = 'leaderboard.html';
 

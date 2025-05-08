@@ -1,0 +1,66 @@
+html { background-color: #5dc3ff;
+
+}
+
+#Sounds {
+    float: left;
+    background-image: url("../assets/sounds2.png");
+    background-color: transparent;
+    min-width: 50px;
+    height: 50px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    filter: invert(1);
+    border-radius: 100%;
+}
+
+#Sounds:hover {
+    background-color: #45a049;
+}
+h2 {
+    margin-left: 6%;
+}
+
+
+#leaderbox {
+    position: absolute;
+    left: 40%;
+    right: 40%;
+
+    width: 15%;
+    height: auto;
+    border: 10px groove gold;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    align-content: center;
+    text-align: center;
+    background-color: silver;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 4%;
+
+}
+ol {
+    font-size: 30px;
+    font-family: "Bauhaus 93";
+
+}
+
+.rainbow-text {
+    padding-left: 35%;
+    font-size: 3em;
+    font-weight: bold;
+    font-family: "Bauhaus 93";
+    justify-content: space-evenly;
+    background-image: conic-gradient(#553c9a, #ee4b2b, #00c2cb, #553c9a);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    animation: rainbowAnimation 15s infinite linear;
+}
+
+@keyframes rainbowAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

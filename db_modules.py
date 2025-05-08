@@ -23,7 +23,7 @@ def db_command(command):
             result = cursor.fetchall()
         except:
             result = None
-        print('db_command debug: exception, suljetaan mariadb yhteys')
+        print('db_command debug: suljetaan mariadb yhteys')
         cursor.close()
         connection.close()
         return result

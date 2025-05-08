@@ -50,6 +50,7 @@ def results():
     
     return 'fetch successful'
 
+# palauttaa 2 satunnaisen lentokentän tiedot, sekä etäisyyden ja co2 hinnan pelaajan nykyisestä sijainnista
 @app.route('/coordinates')
 def cordinates():
     args = request.args
@@ -97,7 +98,7 @@ def cordinates():
     data = json.dumps([airport1, airport2])
     return data
 
-
+# päivittää pelaajan sijainnin valittuun lentokenttään
 @app.route('/flyto')
 def flyto():
     args = request.args
@@ -107,7 +108,7 @@ def flyto():
     db_modules.db_command(f'update game set game_playerpos = "{icao}" where game_id = {id}')
     return 'done'
 
-
+# lisää uuden pelaajan tietokantaan ja palauttaa game_ID:n, joka tallentuu frontendissa sessionStorageen
 @app.route('/start')
 def startGame():
     args = request.args
@@ -121,14 +122,8 @@ def startGame():
 
     return json.dumps(id)
 
-
-@app.route('/location')
-def get_playerlocation():
-    location = db_modules.db_command('select ident from airport where ident = (select game_playerpos from game order by game_id desc limit 1)')
-    location_json = json.dumps(location)
-    return location_json
-
-
+# palauttaa top 10 pelaaajaa scoreboard taulusta
+# samalla lisää pelaajan scoreboard tauluun sekä resetoi minipelit, jos syöttää id:n
 @app.route('/scoreboard')
 def scoreboard():
     args = request.args
@@ -151,6 +146,7 @@ def scoreboard():
 
     return json.dumps(response)
 
+# palauttaa kaikki pelaajan tiedot, sekä tietoa nykyisestä sijainnista
 @app.route('/getPlayerInfo')
 def getPlayerInfo():
     id = request.args.get('id')

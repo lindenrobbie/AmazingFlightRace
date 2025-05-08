@@ -10,6 +10,7 @@ const id = sessionStorage.getItem("id");
 let currentPos = sessionStorage.getItem("currentPos");
 const weather_key = '4cf609616c0b2b448b06bd90265d1cf6';
 
+
 window.addEventListener('load', async () => {
   try {
     if (id !== null) {
@@ -17,16 +18,17 @@ window.addEventListener('load', async () => {
     }
     const infoBox_Data = await playerdata()
 
+    // tarkistaa, jos co2 budjetti ylittyy
     if (infoBox_Data.co2 >= co2Budget) {
+      // lähettä pelaajan id:n @app.route('/scoreboard'):iin, joka kertoo backendille, että peli on päättynyt
       const gameOver = await fetch(`${apiURL}scoreboard?id=${id}`);
-      const gameOverData = await gameOver.json();
+      console.log(gameOver);
       alert(`Game over! \n\nPisteesi: ${infoBox_Data.score}`);
       console.log('poistetaan session storage');
       sessionStorage.clear();
       window.location.href = 'leaderboard.html';
-
     }
-
+    // päivittää piste, sijainti, co2, jne. tiedot HTML:ään
     document.querySelector("#playername").innerHTML = "Your name is: " + await infoBox_Data.name
     document.querySelector("#airport_name").innerHTML = "Current airport: " + await infoBox_Data.airport_name
     document.querySelector("#score").innerHTML = "Your score is: " + await infoBox_Data.score
@@ -36,7 +38,25 @@ window.addEventListener('load', async () => {
   }
 });
 
-// form for player name
+//Kerää pelaajan tietoja infoboxia varten
+async function playerdata() {
+  try{
+  const data = await fetch(`${apiURL}getPlayerInfo?id=${id}`)
+  const data_json = await data.json()
+  const infobox_text = {
+    "co2":data_json.co2,
+    "name":data_json.name,
+    "airport_name":data_json.airport_name,
+    "score":data_json.score
+  }
+  return infobox_text
+}
+  catch(error){
+    console.log(error)
+  }
+}
+
+// formi pelin aloitukseen
 document.querySelector('#player-form').addEventListener('submit', async function (evt) {
   evt.preventDefault();
   const playerName = document.querySelector('#player-input').value;
@@ -56,7 +76,6 @@ document.querySelector('#player-form').addEventListener('submit', async function
 });
 
 // Fetch nykyisen sijainnin koordinaatit
-
 async function currentcoordinates() {
   try{
     const response = await fetch(`${apiURL}/getPlayerInfo?id=${id}`)
@@ -73,7 +92,6 @@ async function currentcoordinates() {
 
 
 // KARTTA
-
 fetch(`${apiURL}/coordinates?id=${id}`)
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -93,14 +111,13 @@ fetch(`${apiURL}/coordinates?id=${id}`)
       maxZoom: 10
     }).addTo(map);
 
-    //kutsuu nykyiset koordinaatit ja lisää sen karttaan
+    //fetchaa nykyiset koordinaatit ja lisää sen karttaan
     const currentCity = await currentcoordinates()
     const currentMarker = L.marker([currentCity.lat, currentCity.lon]).addTo(map);
     currentMarker.bindPopup('<p>You are here</p>')
 
     
     // LISÄÄ KAUPUNKI PINNIT
-
     cities.forEach(city => {
       const marker = L.marker([city.lat, city.lon]).addTo(map);
       marker.bindPopup(`<p>Loading weather...</p>`);
@@ -178,22 +195,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-//Kerää pelaajan tietoja infoboxia varten
-async function playerdata() {
-  try{
-  const data = await fetch(`${apiURL}getPlayerInfo?id=${id}`)
-  const data_json = await data.json()
-  const infobox_text = {
-    "co2":data_json.co2,
-    "name":data_json.name,
-    "airport_name":data_json.airport_name,
-    "score":data_json.score
-  }
-  return infobox_text
-}
-  catch(error){
-    console.log(error)
-  }
-}
-

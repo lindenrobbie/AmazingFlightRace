@@ -1,6 +1,7 @@
 import mariadb
 from geopy import distance
 
+# yleinen funktio sql -komentoja varten
 def db_command(command):
     try:
         connection = mariadb.connect(
@@ -32,10 +33,11 @@ def db_command(command):
         print(e)
         return None
 
-# hakee lentokentän (jolla on vastaava minipeli samalla identillä) icao-koodin
+# hakee x määrä lentokenttiä (joilla on minipeli, jota ei olla suoritettu)
 def getAirport(columns, amount):
     return db_command(f'SELECT {columns} FROM airport WHERE ident IN (SELECT minigame_id FROM minigame WHERE complete = 0) ORDER BY RAND() LIMIT {amount}')
 
+# laskee ja päivittää pelaajan co2 kulutuksen, kun matkustaa uuteen lentokenttään
 def co2Cost(id, icao):
     currentCoord = db_command(f'select latitude_deg, longitude_deg from airport where ident = (select game_playerpos from game where game_id = {id})')
     newCoord = db_command(f'select latitude_deg, longitude_deg from airport where ident = "{icao}"')
@@ -50,6 +52,3 @@ def co2Cost(id, icao):
     newCo2 = round(int(currentCo2[0][0])) + round(int(co2EmissionsKg))
 
     db_command(f'update game set game_co2 = {newCo2} where game_id = {id}')
-
-def getCordinates():
-    return db_command(f"SELECT minigame.minigame_id, airport.name, airport.latitude_deg, airport.longitude_deg FROM minigame JOIN airport ON minigame.minigame_id = airport.ident WHERE minigame.complete = 0 ORDER BY RAND() LIMIT 2;")

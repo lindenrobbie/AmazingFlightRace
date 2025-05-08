@@ -8,12 +8,12 @@ let correctAnswerText = "";
 let selectedAnswerText = "";
 
 
+
 async function loadQuestion() {
+  const pos = sessionStorage.getItem("currentPos");
+
   // KYSYMYS + VASTAUKSET FLASK:ISTÄ (TÄLLÄ HETKELLÄ PALAUTTAA RANDOM ARVON SQL:SSÄ MÄÄRITELTY)
-  const icao = await fetch("http://127.0.0.1:3000/location");
-  const icao_json = await icao.json()
-  console.log(icao_json[0][0])
-  const response = await fetch(`http://127.0.0.1:3000/minigame?icao=${icao_json[0][0]}`);
+  const response = await fetch(`http://127.0.0.1:3000/minigame?icao=${pos}`);
   const data = await response.json();
 
   // KYSYMYS H2 ELENTTIIN ID:LLÄ QUESTION (ESIM. "Minä vuonna Kööpenhaminan Kastrupin lentoasema avattiin?")
@@ -128,5 +128,3 @@ confirmButton.addEventListener('click', async () => {
 });
 
 loadQuestion();
-
-// AND THE GAME CONTINUES...
